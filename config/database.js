@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 module.exports = new Sequelize({
     username: 'eyjniqjefphkbd',
     password: 'bf65ee617723ae281fe3dfaf87f565f152048b4a18c42605be99271d17d713a8',
-    host: 'c2-54-162-119-125.compute-1.amazonaws.com',
+    host: '127.0.0.1',
     port: 5432,
     database: 'daton5rsp5gqgf',
     dialect: 'postgres',
