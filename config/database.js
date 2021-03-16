@@ -8,7 +8,8 @@ module.exports = new Sequelize('postgres://eyjniqjefphkbd:bf65ee617723ae281fe3df
         min: 0, 
         acquire: 30000,
         idle: 10000
-    }
+    },
+    ssl: true
 });
 
 // postgres://superluigi:mario@localhost:5432/chat
