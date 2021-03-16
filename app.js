@@ -13,8 +13,11 @@ const {
   getRoomUsers
 } = require('./utils/users');
 const chatAppName = 'ChatBot';
-const ChatMessage = require('./models/ChatMessages');
 const Room = require('./models/Rooms');
+const Session = require('./models/Session');
+const sequelize = require('sequelize');
+const sequielizeStore = require('connect-session-sequelize')(session.Store);
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -29,13 +32,6 @@ require('./config/passport')(passport);
 const db = require('./config/database');
 const ChatMessages = require('./models/ChatMessages');
 
-db.authenticate().then(() => {
-    console.log('Database connected...');
-}).catch(err => {
-    console.log('Error: ', err);
-});
-
-
 app.use(express.json())
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
@@ -46,13 +42,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/views'));
 
 // Express session
+
 app.use(
   session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new sequielizeStore({
+      db: db,
+      table: 'Session',
+      checkExpirationInterval: 15 * 60 * 1000,
+      expiration: 24 * 60 * 60 * 1000
+    })
   })
 );
+
+db.authenticate().then(() => {
+  console.log('Database connected...');
+}).catch(err => {
+  console.log('Error: ', err);
+});
+
 
 app.use(passport.initialize());
 app.use(passport.session())

@@ -14,7 +14,25 @@ module.exports = new Sequelize({
         acquire: 30000,
         idle: 10000
     },
-    ssl: true
+    ssl: true,
+    storage: './session.postgres'
 })
 
 // postgres://superluigi:mario@localhost:5432/chat
+// module.exports = new Sequelize({
+//     username: 'superluigi',
+//     password: 'mario',
+//     host: 'localhost',
+//     port: 5432,
+//     database: 'chat',
+//     dialect: 'postgres',
+//     operatorsAlias: false,
+//     pool: {
+//         max: 5,
+//         min: 0, 
+//         acquire: 30000,
+//         idle: 10000
+//     },
+//     ssl: true,
+//     storage: './session.postgres'
+// })
