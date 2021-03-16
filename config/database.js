@@ -7,6 +7,9 @@ module.exports = new Sequelize({
     port: 5432,
     database: 'daton5rsp5gqgf',
     dialect: 'postgres',
+    dialectOptions: {
+        ssl: true,
+    },
     operatorsAlias: false,
     pool: {
         max: 5,
