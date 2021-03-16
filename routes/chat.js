@@ -11,8 +11,9 @@ router.get('/', ensureAuthenticated, (req, res) => {
     const errors = [];
     Room.findOne({where: {title: roomName}}).then(room => {
         if(room){
-            chatMessages.findAll({where: {room_id: room.id}, limit: 20, order: [['createdAt', 'DESC']]}).then(messages => {
-                res.render('chat', {messages: messages.reverse()});
+            req.user.room = room.id;
+            chatMessages.findAll({where: {room_id: room.id}, limit: 30, order: [['createdAt', 'DESC']]}).then(messages => {
+                res.render('chat', {messages: messages.reverse(), room: room.id});
             }).catch(err => {
                 console.log(err);
             });
@@ -27,9 +28,17 @@ router.get('/', ensureAuthenticated, (req, res) => {
 
 router.post('/', ensureAuthenticated, (req, res) => {
     const search_term = req.body.search_term;
-    chatMessages.findAll({where : {text: {
-        [Op.substring]: search_term
-    }}, limit: 30, order: [['createdAt', 'DESC']]}).then(result => {
+    const room_id = parseInt(req.body.room_id, 10);
+    chatMessages.findAll({
+        where : {
+            text: {
+                [Op.substring]: search_term
+            }, 
+            room_id: room_id 
+        }, 
+        limit: 30, 
+        order: [['createdAt', 'DESC']]
+    }).then(result => {
         res.setHeader('Content-type', 'application/json');
         res.end(JSON.stringify({result: result.reverse()}));
     }).catch(err => {

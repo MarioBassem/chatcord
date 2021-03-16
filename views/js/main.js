@@ -63,9 +63,10 @@ function outputUsers(users){
 
 document.getElementById('search_input').addEventListener('keyup', function(event){
   const search_term = document.getElementById('search_input').value;
+  const room_id = document.getElementById('rid').innerHTML;
   fetch('/chat', {
     method: 'POST',
-    body: JSON.stringify({search_term: search_term}),
+    body: JSON.stringify({search_term: search_term, room_id: room_id}),
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
