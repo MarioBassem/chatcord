@@ -3,7 +3,6 @@ const router = express.Router();
 const {ensureAuthenticated} = require('../config/auth');
 const Room = require('../models/Rooms');
 
-
 router.get('/', ensureAuthenticated, (req, res) => {
     res.render('dashboard', {
         name: req.user.name
