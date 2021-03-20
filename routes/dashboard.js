@@ -22,7 +22,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
             Room.create({
                 title: newRoom
             }).then(r => {
-                res.redirect(`/chat?room=${room}&username=${req.user.name}`);
+                res.redirect(`/chat?room=${room.title}&username=${req.user.name}`);
             }).catch(err => {
                 console.log(err);
             });
